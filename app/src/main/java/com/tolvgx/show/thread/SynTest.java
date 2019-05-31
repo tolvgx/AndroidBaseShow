@@ -16,10 +16,9 @@ public class SynTest {
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                synchronized (obj){
-                    try {
-
-                        while (count<100){
+                while (count<100) {
+                    synchronized (obj){
+                        try {
                             if (count%3==0) {
                                 System.out.println("t1:"+count);
                                 count++;
@@ -27,10 +26,10 @@ public class SynTest {
                             } else {
                                 obj.wait();
                             }
-                        }
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -39,11 +38,9 @@ public class SynTest {
         Thread t2 = new Thread(new Runnable() {
             @Override
             public void run() {
-                synchronized (obj){
-
-                    try {
-
-                        while (count<100){
+                while (count<100) {
+                    synchronized (obj){
+                        try {
                             if (count%3==1) {
                                 System.out.println("t2:"+count);
                                 count++;
@@ -51,23 +48,20 @@ public class SynTest {
                             } else {
                                 obj.wait();
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
                 }
-
             }
         });
 
         Thread t3 = new Thread(new Runnable() {
             @Override
             public void run() {
-                synchronized (obj){
-                    try {
-
-                        while (count<100){
+                while (count<100) {
+                    synchronized (obj){
+                        try {
                             if (count%3==2) {
                                 System.out.println("t3:"+count);
                                 count++;
@@ -75,10 +69,9 @@ public class SynTest {
                             } else {
                                 obj.wait();
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
                 }
             }

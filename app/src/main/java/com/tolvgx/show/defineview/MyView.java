@@ -114,12 +114,6 @@ public class MyView extends View {
         mPaint.setAlpha(255);
         canvas.drawRect(0, 0, width, 10, mPaint);
 
-//        canvas.translate(0, 20);
-//        canvas.drawRect(0, 0, width, 10, mPaint);
-//
-//        canvas.translate(0, 30);
-//        canvas.drawRect(0, 0, width, 10, mPaint);
-
         if (duration<0.5f){
             for (float i=0; i<10; i++){
                 canvas.save();

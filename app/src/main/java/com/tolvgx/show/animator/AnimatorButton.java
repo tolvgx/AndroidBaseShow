@@ -72,7 +72,7 @@ public class AnimatorButton extends AppCompatButton {
                 int xVelocity = (int) tracker.getYVelocity();
                 int yVelocity = (int) tracker.getXVelocity();
 
-//                Log.e("----", xVelocity+", "+yVelocity);
+                Log.e("----", xVelocity+", "+yVelocity);
                 break;
             case MotionEvent.ACTION_UP:
                 tracker.clear();

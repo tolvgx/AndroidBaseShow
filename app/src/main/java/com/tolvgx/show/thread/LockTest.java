@@ -22,75 +22,69 @@ public class LockTest {
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-
+                while (count<100) {
                     try {
                         lock.lock();
-                        while (count<100) {
-                            if (count % 3 == 0) {
-                                System.out.println("t1:" + count);
-                                count++;
-                                con2.signal();
-                            } else {
-                                con1.await();
-                            }
-                        }
 
+                        if (count % 3 == 0) {
+                            System.out.println("t1:" + count);
+                            count++;
+                            con2.signal();
+                        } else {
+                            con1.await();
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
                         lock.unlock();
                     }
+                }
             }
         });
 
         Thread t2 = new Thread(new Runnable() {
             @Override
             public void run() {
-
+                while (count<100) {
                     try {
                         lock.lock();
 
-                        while (count<100) {
-                            if (count % 3 == 1) {
-                                System.out.println("t2:" + count);
-                                count++;
-                                con3.signal();
-                            } else {
-                                con2.await();
-                            }
+                        if (count % 3 == 1) {
+                            System.out.println("t2:" + count);
+                            count++;
+                            con3.signal();
+                        } else {
+                            con2.await();
                         }
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
                         lock.unlock();
                     }
+                }
             }
         });
 
         Thread t3 = new Thread(new Runnable() {
             @Override
             public void run() {
-
-
+                while (count<100) {
                     try {
                         lock.lock();
 
-                        while (count<100) {
-                            if (count % 3 == 2) {
-                                System.out.println("t3:" + count);
-                                count++;
-                                con1.signal();
-                            } else {
-                                con3.await();
-                            }
+                        if (count % 3 == 2) {
+                            System.out.println("t3:" + count);
+                            count++;
+                            con1.signal();
+                        } else {
+                            con3.await();
                         }
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
                         lock.unlock();
                     }
+                }
             }
         });
 
