@@ -20,6 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 事件分发 -->
         <activity android:name=".eventdispacth.DispacthActivity" />
 
         <!-- launchmode
@@ -47,7 +49,13 @@
                Main5Activity  onNewIntent
                Main5Activity  onResume
 
-             3.taskAffinity, 配合singleTask或者allowTaskReparenting使用
+             3.taskAffinity, 配合singleTask(本应用)或者allowTaskReparenting(跨应用)使用
+                其中关于allowTaskReparenting:
+                a.点击邮件内容中的链接，会打开一个Activity显示这个链接，这个Activity是属于Android系统浏览器的
+                b.当显示这个链接的时候，点击Home键，让邮件App进入到后台中。
+                c.点击浏览器应用程序，你会发现打开的浏览器程序显示的是，上一次从邮件中打开的链接页面。
+                d.此时点击Home键，浏览器App进入到后台中。
+                e.打开邮件App（注意我们没有关闭邮件App，而是让他进入到了后台中），你会发现那个显示链接的Activity不见了, 因为他已经移动到浏览器的Task中了.
         -->
         <activity
             android:name=".launchmode.Main1Activity"
@@ -62,6 +70,9 @@
             android:taskAffinity="com.test.aaaaa" />
         <activity android:name=".launchmode.Main5Activity"
             android:launchMode="singleTop"/>
+
+        <!-- Handler -->
+        <activity android:name=".handler.HandlerActivity" />
 
         <!-- 动画 -->
         <activity android:name=".animator.AnimatorActivity" />
