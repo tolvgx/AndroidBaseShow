@@ -1,6 +1,9 @@
 package com.tolvgx.show.thread;
 
 import java.util.PriorityQueue;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * <pre>
@@ -12,14 +15,21 @@ import java.util.PriorityQueue;
  */
 public class CPTest {
 
-    private int queueSize = 10;
+    private int queueSize = 100;
     private PriorityQueue<Integer> queue = new PriorityQueue<>(queueSize);
+
+    private Lock lock = new ReentrantLock();
+    private Condition conC= lock.newCondition();
+    private Condition conP = lock.newCondition();
 
     public static void main(String[] args){
         CPTest test = new CPTest();
 
-        Comsumer comsumer = test.new Comsumer();
-        Producer producer = test.new Producer();
+//        Comsumer comsumer = test.new Comsumer();
+//        Producer producer = test.new Producer();
+
+        Comsumer1 comsumer = test.new Comsumer1();
+        Producer1 producer = test.new Producer1();
 
         comsumer.start();
         producer.start();
@@ -33,11 +43,11 @@ public class CPTest {
                 synchronized (queue) {
                     try {
                         if (queue.size() == 0){
-                            System.out.println("队列空，等待数据");
+                            System.out.println("队列空空空!!");
                             queue.wait();
                         } else {
                             queue.poll();
-                            System.out.println("从队列取走一个元素，队列剩余"+queue.size()+"个元素");
+                            System.out.println("-----从队列取走一个元素，队列大小: "+queue.size());
                             queue.notify();
                         }
                     } catch (Exception e){
@@ -56,16 +66,66 @@ public class CPTest {
                 synchronized (queue) {
                     try {
                         if (queue.size() == queueSize){
-                            System.out.println("队列满，等待有空余空间");
+                            System.out.println("队列满满满!!");
                             queue.wait();
                         } else {
                             queue.offer(1);
-                            System.out.println("向队列取中插入一个元素，队列有"+queue.size()+"个元素");
+                            System.out.println("+++++向队列插入一个元素，队列大小: "+queue.size());
                             queue.notify();
                         }
                     } catch (Exception e){
                         e.printStackTrace();
                     }
+                }
+            }
+        }
+    }
+
+    class Comsumer1 extends Thread{
+
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    lock.lock();
+
+                    if (queue.size() == 0){
+                        System.out.println("队列空空空!!");
+                        conC.await();
+                    } else {
+                        queue.poll();
+                        System.out.println("-----从队列取走一个元素，队列大小: "+queue.size());
+                        conP.signal();
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                } finally {
+                    lock.unlock();
+                }
+            }
+        }
+    }
+
+    class Producer1 extends Thread{
+
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    lock.lock();
+
+                    if (queue.size() == queueSize){
+                        System.out.println("队列满满满!!");
+                        conP.await();
+                    } else {
+                        queue.offer(1);
+                        System.out.println("+++++向队列插入一个元素，队列大小: "+queue.size());
+                        conC.signal();
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                } finally {
+                    lock.unlock();
                 }
             }
         }
