@@ -52,6 +52,6 @@ package com.tolvgx.show.modifier;
 public class ModifierClass {
 
     class Inner{
-
+        //
     }
 }
