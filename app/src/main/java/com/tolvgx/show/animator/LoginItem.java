@@ -1,7 +1,7 @@
 package com.tolvgx.show.animator;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
@@ -19,9 +19,7 @@ public class LoginItem extends RelativeLayout {
     private View vHeart;
     private View vLight;
 
-    ObjectAnimator headAnimator;
-    ObjectAnimator heartAnimator;
-    ObjectAnimator lightAnimator;
+    private AnimatorSet animatorSet;
 
     public LoginItem(Context context) {
         super(context);
@@ -53,7 +51,7 @@ public class LoginItem extends RelativeLayout {
         Keyframe headKF3 = Keyframe.ofFloat(1,1);
         PropertyValuesHolder headScaleX = PropertyValuesHolder.ofKeyframe("scaleX", headKF1,headKF2,headKF3);
         PropertyValuesHolder headScaleY = PropertyValuesHolder.ofKeyframe("scaleY", headKF1,headKF2,headKF3);
-        headAnimator = ObjectAnimator.ofPropertyValuesHolder(vHead, headScaleX, headScaleY);
+        ObjectAnimator headAnimator = ObjectAnimator.ofPropertyValuesHolder(vHead, headScaleX, headScaleY);
         headAnimator.setDuration(1000);
         headAnimator.addListener(new Animator.AnimatorListener() {
             @Override
@@ -73,7 +71,7 @@ public class LoginItem extends RelativeLayout {
         heartKF2.setInterpolator(new BounceInterpolator());
         PropertyValuesHolder heartScaleX = PropertyValuesHolder.ofKeyframe("scaleX", heartKF1, heartKF2);
         PropertyValuesHolder heartScaleY = PropertyValuesHolder.ofKeyframe("scaleY", heartKF1, heartKF2);
-        heartAnimator = ObjectAnimator.ofPropertyValuesHolder(vHeart, heartScaleX, heartScaleY);
+        ObjectAnimator heartAnimator = ObjectAnimator.ofPropertyValuesHolder(vHeart, heartScaleX, heartScaleY);
         heartAnimator.setStartDelay(300);
         heartAnimator.setDuration(500);
         heartAnimator.addListener(new Animator.AnimatorListener() {
@@ -89,9 +87,16 @@ public class LoginItem extends RelativeLayout {
             public void onAnimationRepeat(Animator animation) { }
         });
 
-        PropertyValuesHolder lightScaleX = PropertyValuesHolder.ofFloat("scaleX", 0, 1);
-        PropertyValuesHolder lightScaleY = PropertyValuesHolder.ofFloat("scaleY", 0, 1);
-        lightAnimator = ObjectAnimator.ofPropertyValuesHolder(vLight, lightScaleX, lightScaleY);
+        Keyframe lightKF1 = Keyframe.ofFloat(0, 0);
+        Keyframe lightKF2 = Keyframe.ofFloat(0.67f, 1);
+        Keyframe lightKF3 = Keyframe.ofFloat(1, 1);
+        Keyframe lightKF4 = Keyframe.ofFloat(0, 1);
+        Keyframe lightKF5 = Keyframe.ofFloat(0.67f, 1);
+        Keyframe lightKF6 = Keyframe.ofFloat(1, 0);
+        PropertyValuesHolder lightScaleX = PropertyValuesHolder.ofKeyframe("scaleX", lightKF1, lightKF2, lightKF3);
+        PropertyValuesHolder lightScaleY = PropertyValuesHolder.ofKeyframe("scaleY", lightKF1, lightKF2, lightKF3);
+        PropertyValuesHolder lightAlpha = PropertyValuesHolder.ofKeyframe("alpha", lightKF4, lightKF5, lightKF6);
+        ObjectAnimator lightAnimator = ObjectAnimator.ofPropertyValuesHolder(vLight, lightScaleX, lightScaleY, lightAlpha);
         lightAnimator.setStartDelay(300);
         lightAnimator.setDuration(500);
         lightAnimator.addListener(new Animator.AnimatorListener() {
@@ -108,11 +113,12 @@ public class LoginItem extends RelativeLayout {
             @Override
             public void onAnimationRepeat(Animator animation) { }
         });
+
+        animatorSet = new AnimatorSet();
+        animatorSet.playTogether(headAnimator, heartAnimator, lightAnimator);
     }
 
     public void startAnimator(){
-        headAnimator.start();
-        heartAnimator.start();
-        lightAnimator.start();
+        animatorSet.start();
     }
 }
