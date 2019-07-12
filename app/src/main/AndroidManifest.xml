@@ -76,6 +76,7 @@
 
         <!-- 动画 -->
         <activity android:name=".animator.AnimatorActivity" />
+        <activity android:name=".animator.Animator1Activity" />
 
         <!-- 自定义View -->
         <activity android:name=".defineview.DefineActivity"/>
