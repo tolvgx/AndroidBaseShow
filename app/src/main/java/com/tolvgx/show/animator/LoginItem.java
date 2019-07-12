@@ -55,6 +55,18 @@ public class LoginItem extends RelativeLayout {
         PropertyValuesHolder headScaleY = PropertyValuesHolder.ofKeyframe("scaleY", headKF1,headKF2,headKF3);
         headAnimator = ObjectAnimator.ofPropertyValuesHolder(vHead, headScaleX, headScaleY);
         headAnimator.setDuration(1000);
+        headAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                vHeart.setVisibility(GONE);
+            }
+            @Override
+            public void onAnimationEnd(Animator animation) { }
+            @Override
+            public void onAnimationCancel(Animator animation) { }
+            @Override
+            public void onAnimationRepeat(Animator animation) { }
+        });
 
         Keyframe heartKF1 = Keyframe.ofFloat(0, 0);
         Keyframe heartKF2 = Keyframe.ofFloat(1, 1);
@@ -76,10 +88,31 @@ public class LoginItem extends RelativeLayout {
             @Override
             public void onAnimationRepeat(Animator animation) { }
         });
+
+        PropertyValuesHolder lightScaleX = PropertyValuesHolder.ofFloat("scaleX", 0, 1);
+        PropertyValuesHolder lightScaleY = PropertyValuesHolder.ofFloat("scaleY", 0, 1);
+        lightAnimator = ObjectAnimator.ofPropertyValuesHolder(vLight, lightScaleX, lightScaleY);
+        lightAnimator.setStartDelay(300);
+        lightAnimator.setDuration(500);
+        lightAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                vLight.setVisibility(VISIBLE);
+            }
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                vLight.setVisibility(GONE);
+            }
+            @Override
+            public void onAnimationCancel(Animator animation) { }
+            @Override
+            public void onAnimationRepeat(Animator animation) { }
+        });
     }
 
     public void startAnimator(){
         headAnimator.start();
         heartAnimator.start();
+        lightAnimator.start();
     }
 }
