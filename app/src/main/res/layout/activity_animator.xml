@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".animator.AnimatorActivity">
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/btn"
@@ -13,7 +12,7 @@
         android:layout_height="50dp"
         android:text="点击"/>
 
-    <com.tolvgx.show.animator.AnimatorButton
+    <com.show.app.animator.AnimatorButton
         android:id="@+id/animatorBtn"
         android:layout_width="200dp"
         android:layout_height="50dp"

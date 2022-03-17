@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.tolvgx.show">
+    package="com.show.app">
 
     <application
         android:allowBackup="true"
@@ -11,7 +11,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
         <!-- 入口 -->
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -19,35 +18,33 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- 事件分发 -->
-        <activity android:name=".eventdispacth.DispacthActivity" />
-
-        <!-- launchmode
+        </activity> <!-- 事件分发 -->
+        <activity android:name=".eventdispacth.DispatchActivity" />
+        <!--
+ launchmode
              1.查看查看activity栈信息
              adb shell dumpsys activity
 
              2.
              singleInstance
-               Main5Activity  onPause
-               Main1Activity  onNewIntent
-               Main1Activity  onStart
-               Main1Activity  onResume
-               Main5Activity  onStop
+               Launch5Activity  onPause
+               Launch1Activity  onNewIntent
+               Launch1Activity  onStart
+               Launch1Activity  onResume
+               Launch5Activity  onStop
 
              singleTask(可跨栈调用)
-               Main2Activity  onDestroy
-               Main5Activity  onPause
-               Main1Activity  onNewIntent
-               Main1Activity  onStart
-               Main1Activity  onResume
-               Main5Activity  onStop
+               Launch2Activity  onDestroy
+               Launch5Activity  onPause
+               Launch1Activity  onNewIntent
+               Launch1Activity  onStart
+               Launch1Activity  onResume
+               Launch5Activity  onStop
 
              singleTop(只在当前栈调用生效)
-               Main5Activity  onPause
-               Main5Activity  onNewIntent
-               Main5Activity  onResume
+               Launch5Activity  onPause
+               Launch5Activity  onNewIntent
+               Launch5Activity  onResume
 
              3.taskAffinity, 配合singleTask(本应用)或者allowTaskReparenting(跨应用)使用
                 其中关于allowTaskReparenting:
@@ -58,35 +55,46 @@
                 e.打开邮件App（注意我们没有关闭邮件App，而是让他进入到了后台中），你会发现那个显示链接的Activity不见了, 因为他已经移动到浏览器的Task中了.
         -->
         <activity
-            android:name=".launchmode.Main1Activity"
+            android:name=".launchmode.Launch1Activity"
             android:launchMode="singleTask" />
-        <activity android:name=".launchmode.Main2Activity"/>
+        <activity android:name=".launchmode.Launch2Activity" />
         <activity
-            android:name=".launchmode.Main3Activity"
+            android:name=".launchmode.Launch3Activity"
             android:launchMode="singleInstance" />
         <activity
-            android:name=".launchmode.Main4Activity"
+            android:name=".launchmode.Launch4Activity"
             android:launchMode="singleTask"
             android:taskAffinity="com.test.aaaaa" />
-        <activity android:name=".launchmode.Main5Activity"
-            android:launchMode="singleTop"/>
-
-        <!-- Handler -->
-        <activity android:name=".handler.HandlerActivity" />
-
-        <!-- 动画 -->
+        <activity
+            android:name=".launchmode.Launch5Activity"
+            android:launchMode="singleTop" /> <!-- Handler -->
+        <activity android:name=".handler.HandlerActivity" /> <!-- 动画 -->
         <activity android:name=".animator.AnimatorActivity" />
-        <activity android:name=".animator.Animator1Activity" />
-
-        <!-- 自定义View -->
-        <activity android:name=".defineview.DefineActivity"/>
-
-        <!-- Jetpack -->
-        <!-- 横屏旋转
+        <activity android:name=".animator.Animator1Activity" /> <!-- 自定义View -->
+        <activity android:name=".defineview.DefineActivity" /> <!-- Jetpack -->
+        <!--
+ 横屏旋转
              1.设置configChanges只走onConfigurationChanged()方法
              2.不设置则重新走onPause->onSaveInstanceState->onStop->onDestroy->onCreate->onStart->onRestoreInstanceState->onResume
-         -->
-        <activity android:name=".jetpack.JetpackActivity"/>
+        -->
+        <activity android:name=".jetpack.JetpackActivity" />
+
+        <activity
+            android:name=".binder.NewProcessActivity"
+            android:process=":new"
+            android:exported="false" />
+        <!-- LocalService
+             1.android:process=":remote"  //将本地服务设置成远程服务
+             2.android:exported="true" //设置可被其他进程调用
+             3.该Service可以响应带有com.show.app.binder.IMyAidlInterface这个action的Intent, 此处Intent的action必须写成“服务器端包名.aidl文件名”
+        -->
+        <service
+            android:name=".binder.LocalService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.show.app.binder.IMyAidlInterface" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

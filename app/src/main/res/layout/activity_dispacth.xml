@@ -2,21 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".eventdispacth.DispacthActivity">
+    android:layout_height="match_parent">
 
-    <com.tolvgx.show.eventdispacth.ViewGroupOut
+    <com.show.app.eventdispacth.ViewGroupOut
         android:id="@+id/outVG"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#0000ff">
-        <com.tolvgx.show.eventdispacth.ViewGroupIn
+        <com.show.app.eventdispacth.ViewGroupIn
             android:id="@+id/inVG"
             android:background="#ff0000"
             android:layout_centerInParent="true"
             android:layout_width="300dp"
             android:layout_height="400dp">
-            <com.tolvgx.show.eventdispacth.MyView
+            <com.show.app.eventdispacth.MyView
                 android:id="@+id/myView"
                 android:background="#00ff00"
                 android:layout_centerInParent="true"
@@ -27,6 +26,6 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:text="button"/>
-        </com.tolvgx.show.eventdispacth.ViewGroupIn>
-    </com.tolvgx.show.eventdispacth.ViewGroupOut>
+        </com.show.app.eventdispacth.ViewGroupIn>
+    </com.show.app.eventdispacth.ViewGroupOut>
 </RelativeLayout>
